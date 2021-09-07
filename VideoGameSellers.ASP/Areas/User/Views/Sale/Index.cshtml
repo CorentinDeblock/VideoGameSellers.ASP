@@ -6,28 +6,5 @@
 @Html.ActionLink("Créer une vente", "Create")
 @foreach (var item in Model)
 {
-<div class="d-flex align-items-center mt-2 list rounded">
-    @if (item.Pictures.Count() > 0)
-    {
-        <img src="~/@item.Pictures.First().Url" class="listImage" />
-    }
-    <div class="ml-2">
-        <h4 class="m-0">@item.Title</h4>
-        <p class="m-0">Par @item.User.Username</p>
-        @if (item.Type == VideoGameSellers.ASP.Models.Enum.SaleType.Buy)
-        {
-            <p class="m-0">Peut être acheter a un prix de @item.Price€</p>
-        }
-        else
-        {
-            <p class="m-0">Enchéri a @item.Price€</p>
-        }
-        <p class="m-0">@item.Description</p>
-        <p class="m-0">@item.PublishedAt.ToLocalTime()</p>
-        <div class="d-flex justify-content-between">
-            @Html.ActionLink("See more", "Single", new { Id = item.Id })
-            <partial name="OpinionView" model="item.Opinions" />
-        </div>
-    </div>
-</div>
+    <partial name="SaleView" model="item" />
 }

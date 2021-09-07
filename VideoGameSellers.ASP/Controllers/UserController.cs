@@ -28,8 +28,14 @@ namespace VideoGameSellers.ASP.Controllers
         public IActionResult Connect(UserConnectionForm form)
         {
             UserModel user = userServices.Call("Connect", form);
-            HttpContext.Session.Set("User",user);
-            return RedirectToAction("Index","Home", new { area = "User"});
+            if(user != null)
+            {
+                HttpContext.Session.Set("User", user);
+                return RedirectToAction("Index", "Home", new { area = "User" });
+            }
+            ViewData["Error"] = "Mauvais email ou mot de passe";
+            form.Password = "";
+            return View(form);
         }
 
         public IActionResult Disconnect()
@@ -47,8 +53,18 @@ namespace VideoGameSellers.ASP.Controllers
         public IActionResult Register(UserForm form)
         {
             UserModel user = userServices.Insert(form);
-            HttpContext.Session.Set("User", user);
-            return RedirectToAction("Index", "Home", new { area = "User" });
+            if(user != null && form.Password == form.ConfirmPassword)
+            {
+                HttpContext.Session.Set("User", user);
+                return RedirectToAction("Index", "Home", new { area = "User" });
+            }
+            if(form.Password != form.ConfirmPassword)
+                ViewData["Error"] = "Les mots de passe ne corresponde pas";
+            else
+                ViewData["Error"] = "L'email ou le nom d'utilisateur est deja utiliser ou bien l'email n'est pas valide";
+            form.Password = "";
+            form.ConfirmPassword = "";
+            return View(form);
         }
     }
 }

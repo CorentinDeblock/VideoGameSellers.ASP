@@ -19,9 +19,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span type="password" asp-validation-for="Password" class="text-danger"></span>
+                <input type="password" asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
             </div>
+            @if (ViewData["Error"] != null)
+            {
+                <h5 class="bg-danger text-white text-center p-3 rounded mt-2">@ViewData["Error"]</h5>
+            }
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

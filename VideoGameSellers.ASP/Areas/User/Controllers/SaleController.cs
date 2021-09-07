@@ -41,7 +41,8 @@ namespace VideoGameSellers.ASP.Areas.User.Controllers
         public IActionResult Create(SaleForm saleForm)
         {
             SaleModel sale = Service.Insert(saleForm);
-            using(Stream fileStream = new FileStream(Path.Combine(_hostEnvironment.WebRootPath, "Image", saleForm.Picture.FileName), FileMode.Create))
+            string pictureUrl = Path.Combine(_hostEnvironment.WebRootPath, "Image", saleForm.Picture.FileName);
+            using (Stream fileStream = new FileStream(pictureUrl, FileMode.Create))
             {
                 saleForm.Picture.CopyTo(fileStream);
             }

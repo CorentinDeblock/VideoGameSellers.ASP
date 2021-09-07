@@ -14,31 +14,45 @@
             <h4 class="m-0">@Model.Title</h4>
             <p class="m-0">Par @Model.User.Username</p>
             <p class="m-0">Publier le @Model.PublishedAt.ToLocalTime()</p>
-            @if (Model.Type == VideoGameSellers.ASP.Models.Enum.SaleType.Buy)
+            @if (!Model.IsSale)
             {
-                if (Model.User.Id != Context.Session.GetUser().Id)
-                {
-                    @Html.ActionLink($"Acheter pour {Model.Price}€", "Buy", "Sale", new { id = Model.Id }, new { @class = "btn btn-info mt-1" })
-                }
+                <div class="d-flex align-items-center">
+                    @if (Model.Type == VideoGameSellers.ASP.Models.Enum.SaleType.Buy)
+                    {
+                        if (Model.User.Id != Context.Session.GetUser().Id)
+                        {
+                            @Html.ActionLink($"Acheter pour {Model.Price}€", "Buy", "Sale", new { id = Model.Id }, new { @class = "btn btn-info mt-1" })
+                        }
+                    }
+                    else
+                    {
+                        if (Model.User.Id != Context.Session.GetUser().Id)
+                        {
+                            @Html.ActionLink($"Enchérir a plus de {Model.Price}€", "Bid", "Sale", new { id = Model.Id, price = Model.Price }, new { @class = "btn btn-info mt-1" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink($"Valider la vente", "ConfirmBid", "Sale", new { id = Model.Id }, new { @class = "btn btn-info mt-1" })
+                        }
+                    }
+                    <div class="ml-2">
+                        <partial name="OpinionView" model="Model.Opinions" />
+                    </div>
+                </div>
             }
             else
             {
-                if (Model.User.Id != Context.Session.GetUser().Id)
-                {
-                    @Html.ActionLink($"Enchérir a plus de {Model.Price}€", "Bid", "Sale", new { id = Model.Id, price = Model.Price }, new { @class = "btn btn-info mt-1" })
-                }
-                else
-                {
-                    @Html.ActionLink($"Valider la vente", "ConfirmBid", "Sale", new { id = Model.Id }, new { @class = "btn btn-info mt-1" })
-                }
+                <partial name="OpinionView" model="Model.Opinions" />
             }
-            <partial name="OpinionView" model="Model.Opinions" />
         </div>
     </div>
     <hr />
     <p class="m-0">@Model.Description</p>
     <hr />
-    @Html.ActionLink($"Ajouter un message", "PublishMessage", "Sale", new { id = Model.Id}, new { @class = "btn btn-info mt-1" })
+    @if (!Model.IsSale)
+    {
+        @Html.ActionLink($"Ajouter un message", "PublishMessage", "Sale", new { id = Model.Id }, new { @class = "btn btn-info mt-1" })
+    }
     @foreach (var Message in Model.Messages.OrderByDescending(mess => mess.PublishedAt))
     {
         <partial name="MessageView" model="Message" />
