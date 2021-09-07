@@ -1,0 +1,18 @@
+﻿@model IEnumerable<VideoGameSellers.ASP.Models.OpinionModel>
+
+<div class="d-flex">
+    @{
+        int positive = 0;
+        int negative = 0;
+        foreach (var item in Model)
+        {
+            if (item.Type == VideoGameSellers.ASP.Models.Enum.OpinionType.GOOD)
+                positive += 1;
+            else
+                negative += 1;
+        }
+
+        <p class="text-info mr-1">@positive</p>
+        <p class="text-danger">@negative</p>
+    }
+</div>

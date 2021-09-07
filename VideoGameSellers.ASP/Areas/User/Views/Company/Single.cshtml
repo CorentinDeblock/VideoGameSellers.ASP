@@ -1,0 +1,15 @@
+﻿@model VideoGameSellers.ASP.Models.CompanyModel
+
+@{
+    ViewData["Title"] = "Single";
+}
+
+<div class="list">
+    <div class="d-flex align-items-center rounded">
+        <img src="~/@Model.Picture.Url" class="detailImage" />
+        <div class="ml-2">
+            <h4 class="m-0">@Model.Name</h4>
+            <p>Appearance : @Model.Appearance.ToLocalTime()</p>
+        </div>
+    </div>
+</div>

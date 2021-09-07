@@ -1,0 +1,21 @@
+﻿@model IEnumerable<VideoGameSellers.ASP.Models.GameModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+@foreach (var item in Model)
+{
+    <div class="d-flex align-items-center mt-2 list rounded">
+        <img src="~/@item.Picture.Url" class="listImage" />
+        <div class="ml-2">
+            <h4 class="m-0">@item.Name</h4>
+            <p class="m-0">Appearance : @item.Appearance.ToLocalTime()</p>
+            <p class="m-0">@item.Description</p>
+            @foreach(var platform in item.Platforms)
+            {
+                <span class="badge badge-pill badge-info mr-1">@platform.Name</span>
+            }
+            @Html.ActionLink("See more", "Single", new { Id = item.Id })
+        </div>
+    </div>
+}

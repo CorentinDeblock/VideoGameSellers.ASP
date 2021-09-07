@@ -1,0 +1,21 @@
+﻿@model VideoGameSellers.ASP.Models.GameModel
+
+@{
+    ViewData["Title"] = "Single";
+}
+
+<div class="list">
+    <div class="d-flex align-items-center rounded">
+        <img src="~/@Model.Picture.Url" class="detailImage" />
+        <div class="ml-2">
+            <h4 class="m-0">@Model.Name</h4>
+            <p class="m-0">Appearance : @Model.Appearance.ToLocalTime()</p>
+            @foreach (var platform in Model.Platforms)
+            {
+                <span class="badge badge-pill badge-info mr-1">@platform.Name</span>
+            }
+        </div>
+    </div>
+    <hr />
+    <p>@Model.Description</p>
+</div>

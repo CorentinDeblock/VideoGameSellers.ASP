@@ -1,0 +1,9 @@
+﻿@model VideoGameSellers.ASP.Models.UserModel
+
+<div>
+    <div class="d-flex align-items-center">
+        <h4 class="m-0 mr-2">@Model.Username</h4>
+        <span class="m-0 badge badge-pill badge-info">@Model.Grade</span>
+    </div>
+    @Html.ActionLink("Deconnexion", "Disconnect", "User",new { area="" })
+</div>
